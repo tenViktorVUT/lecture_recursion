@@ -42,11 +42,34 @@ def binary_search(seq, number):
     return None
 
 
+def recursive_bs(seq, number, right_idx, left_idx=0):
+    """
+    Function performs binary search on !!ordered!! sequence using recursive divide and conquer and stores position of match if found.
+    :param seq: (list): list of numbers
+    :param number: (int): number to match within sequence
+    :return: (int, None): index of match if found, None otherwise
+    left_border_idx: (int): index of the left border
+    right_border_index: (int): index of the right border
+    """
+
+    middle = right_idx + left_idx // 2
+
+    if number == seq[middle]:
+        return middle
+    elif left_idx == right_idx:
+        return None
+    elif number < seq[middle]:
+        return recursive_bs(seq=seq, number=number, left_idx=left_idx, right_idx=(middle - 1))
+    else:
+        return recursive_bs(seq, number=number, right_idx=right_idx, left_idx=(middle + 1))
+
+
 def main(file_name, number):
     sequence = read_data(file_name=file_name, key="ordered_numbers")
 
     # iterative binary search
     binary_search(sequence, number=number)
+    print(recursive_bs(seq=sequence, number=number, right_idx=len(sequence) - 1))
 
 
 if __name__ == "__main__":
